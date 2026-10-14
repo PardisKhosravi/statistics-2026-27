@@ -1,0 +1,13 @@
+{
+  "name": "statistics-2026-27",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static Statistics coursework by Pardis Khosravi",
+  "scripts": {
+    "test": "node tests/checks.cjs",
+    "test:ui": "node tests/ui-checks.cjs"
+  },
+  "devDependencies": {
+    "jsdom": "26.1.0"
+  }
+}

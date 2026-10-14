@@ -1,0 +1,54 @@
+const {JSDOM,VirtualConsole}=require('jsdom');
+const fs=require('fs'),path=require('path'),assert=require('assert/strict');
+const root=path.resolve(__dirname,'..');
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+let checks=0;
+function ok(x,msg){assert.ok(x,msg);checks++;}
+async function page(name){
+ const errors=[],downloads=[];const vc=new VirtualConsole();vc.on('jsdomError',e=>errors.push(e));
+ const html=fs.readFileSync(path.join(root,name,'index.html'),'utf8');
+ const dom=new JSDOM(html,{url:'https://lab.test/'+name+'/',runScripts:'outside-only',pretendToBeVisual:true,virtualConsole:vc});
+ const w=dom.window;
+ w.URL.createObjectURL=()=> 'blob:test';w.URL.revokeObjectURL=()=>{};
+ w.HTMLAnchorElement.prototype.click=function(){downloads.push(this.download);};
+ w.print=()=>{};
+ for(const script of w.document.querySelectorAll('script[src]'))w.eval(fs.readFileSync(path.resolve(root,name,script.getAttribute('src')),'utf8'));
+ await sleep(80);
+ return {dom,w,errors,downloads,$:id=>w.document.getElementById(id)};
+}
+(async()=>{
+ const p=await page('hw1'),{$,w}=p;
+ ok($('public-result').textContent==='(5, 8)','default result');
+ ok($('trace').children.length===6,'default trace');
+ ok($('dataset').children.length===8,'canonical census');
+ $('scalar').value=9;$('calculate').click();ok($('public-result').textContent==='O','infinity is displayed');
+ $('scalar').value=0;$('calculate').click();ok($('input-error').textContent.includes('integer'),'invalid input rejected');
+ $('reset').click();$('restart').click();ok($('step-status').textContent.startsWith('Start'),'restart at identity');$('step').click();ok($('step-status').textContent.includes('1 / 6'),'step works');
+ $('speed').value='300';$('scalar').value=2;$('calculate').click();$('play').click();await sleep(700);ok($('step-status').textContent.includes('2 / 2'),'timed replay reaches final point');
+ const order2=Array.from($('base').options).find(x=>x.textContent.includes('order 2'));
+ $('base').value=order2.value;$('base').dispatchEvent(new w.Event('change'));ok($('dataset').children.length===1,'order-2 subgroup census');ok($('correlation-note').textContent.includes('Undefined'),'undefined variance handled');
+ $('reset').click();$('export-toy').click();ok(p.downloads.includes('hw1-observations.csv'),'CSV export action');
+ ok(p.errors.length===0,'HW1 has no DOM runtime errors');p.dom.window.close();
+ const q=await page('hw2'),$2=q.$;
+ ok($2('test-total').textContent==='6 / 6 passed','all page self-checks pass');
+ ok($2('checksum-out').textContent==='0x9858EfFD232B4033E47d90003D41EC34EcaEda94','default end-to-end result');
+ ok($2('siblings').children.length===3,'three siblings shown');
+ ok($2('hash-keccak').textContent!==$2('hash-sha3').textContent,'Keccak and SHA3 differ');
+ ok($2('hash-bits').children.length===256,'256 output-bit cells');
+ $2('mutate-address').click();ok($2('check-status').textContent.includes('mismatch'),'case mutation detected');
+ $2('checksum-input').value='0x123';$2('check-address').click();ok($2('check-status').textContent.includes('40'),'bad address rejected');
+ $2('sample-size').value='64';$2('run-stats').click();
+ for(let i=0;i<200&&!$2('stats-status').textContent.startsWith('Complete');i++)await sleep(25);
+ ok($2('stats-status').textContent.startsWith('Complete'),'statistical run completes');
+ ok($2('wallet-observations').children.length===64,'64 real address observations');
+ ok($2('avalanche-chart').querySelector('svg'),'hash histogram drawn');
+ ok($2('hex-chart').querySelectorAll('rect').length===16,'16 hex frequencies');
+ $2('export-wallet').click();$2('export-bits').click();ok(q.downloads.length===2,'both CSV exports');
+ $2('mnemonic').value='invalid words';$2('mnemonic').dispatchEvent(new q.w.Event('input'));ok($2('run-stats').disabled,'dirty inputs disable outdated stats');
+ $2('derive').click();await sleep(80);ok($2('wallet-error').textContent.length>0,'invalid mnemonic error shown');
+ $2('wallet-reset').click();await sleep(100);ok(!$2('run-stats').disabled,'reset restores working state');
+ $2('preset').value='dev';$2('preset').dispatchEvent(new q.w.Event('change'));$2('derive').click();await sleep(150);ok($2('checksum-out').textContent==='0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266','alternate known test wallet');
+ $2('account').value='';$2('derive').click();await sleep(80);ok($2('wallet-error').textContent.includes('empty'),'empty index rejected');
+ ok(q.errors.length===0,'HW2 has no DOM runtime errors');q.dom.window.close();
+ console.log('PASS · '+checks+' DOM interaction checks (not a visual-browser test)');
+})().catch(e=>{console.error(e);process.exit(1);});
