@@ -15,14 +15,14 @@
     let previous=null;
     for(const row of rows.slice(0,position)){
       const P=row.point;
-      if(previous&&P)s+=`<path d="M${sx(previous.x)} ${sy(previous.y)}L${sx(P.x)} ${sy(P.y)}" fill="none" stroke="#79a18b" stroke-width="1.5" stroke-dasharray="4 5"/>`;
+      if(previous&&P)s+=`<path d="M${sx(previous.x)} ${sy(previous.y)}L${sx(P.x)} ${sy(P.y)}" fill="none" stroke="var(--curve-path)" stroke-width="1.5" stroke-dasharray="4 5"/>`;
       previous=P;
     }
     const current=position?rows[position-1].point:null;
     T.points.forEach(P=>{
       const isG=T.eq(P,G),visited=rows.slice(0,position).some(r=>T.eq(r.point,P));
-      s+=`<circle cx="${sx(P.x)}" cy="${sy(P.y)}" r="${isG?6:5}" fill="${isG?'#ca6d42':visited?'#71a38d':'#c2cdbd'}"><title>${point(P)}${isG?' · base G':''}</title></circle>`;
-      if(T.eq(current,P))s+=`<circle cx="${sx(P.x)}" cy="${sy(P.y)}" r="11" fill="none" stroke="#287464" stroke-width="2.5"/><text x="${sx(P.x)+14}" y="${sy(P.y)-12}" class="axis" style="fill:#203638">${position}G</text>`;
+      s+=`<circle cx="${sx(P.x)}" cy="${sy(P.y)}" r="${isG?6:5}" fill="${isG?'var(--secondary)':visited?'var(--curve-visited)':'var(--curve-point)'}"><title>${point(P)}${isG?' · base G':''}</title></circle>`;
+      if(T.eq(current,P))s+=`<circle cx="${sx(P.x)}" cy="${sy(P.y)}" r="11" fill="none" stroke="var(--primary)" stroke-width="2.5"/><text x="${sx(P.x)+14}" y="${sy(P.y)-12}" class="axis" style="fill:var(--ink)">${position}G</text>`;
     });
     s+=`<text x="${W-9}" y="${H-13}" class="axis">x</text><text x="12" y="17" class="axis">y</text></svg>`;$('curve').innerHTML=s;
     $('replay-progress').style.width=(position/k*100)+'%';
