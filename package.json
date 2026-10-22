@@ -5,7 +5,9 @@
   "description": "Static Statistics coursework by Pardis Khosravi",
   "scripts": {
     "test": "node tests/checks.cjs",
-    "test:ui": "node tests/ui-checks.cjs"
+    "test:ui": "node tests/ui-checks.cjs",
+    "test:lesson2": "node tests/lesson2-checks.cjs",
+    "test:lesson2-ui": "node tests/lesson2-ui.cjs"
   },
   "devDependencies": {
     "jsdom": "26.1.0"

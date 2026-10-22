@@ -1,0 +1,10 @@
+/* Lesson 2 extends the existing berry / plum / lilac design. */
+.message-output{white-space:pre-wrap;overflow-wrap:anywhere;max-height:260px;overflow:auto;padding:16px;background:var(--light);border-radius:7px;font-size:14px;min-height:60px;margin:12px 0}
+.message-output:empty:before{content:'Run the experiment to see this result.';color:var(--muted)}
+#encryption-results{margin-top:24px}#encryption-results>.panel{margin-top:24px}
+#ecc-output{max-height:260px;overflow:auto}#packet-output{max-height:420px;overflow:auto}
+#best-guess{border-left:4px solid var(--primary)}progress{width:100%;height:14px;accent-color:var(--primary)}
+#metrics td{font-variant-numeric:tabular-nums}.section-nav button{margin-left:auto}
+.topbar nav{gap:18px}
+@media(max-width:700px){.topbar{height:auto;min-height:80px;flex-wrap:wrap;padding-top:12px;padding-bottom:10px}.topbar nav{width:100%;justify-content:space-between;gap:8px}.topbar nav a{padding:5px 0}.section-nav button{margin-left:0}.fields{grid-template-columns:1fr}.hero-art .formula{font-size:24px}}
+@media print{.message-output,#ecc-output,#packet-output{max-height:none;overflow:visible}.message-output:empty{display:none}details{display:block}progress{display:none}}

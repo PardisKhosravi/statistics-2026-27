@@ -7,8 +7,10 @@ The site uses **HTML, CSS and JavaScript**. It is a static site: no build proces
 ## Pages
 
 - `index.html`: coursework index.
-- `hw1/index.html`: toy elliptic-curve arithmetic, algorithm replay and statistical census.
-- `hw2/index.html`: Ethereum wallet pipeline, checksum and hash experiments, statistical analysis and historical context.
+- `hw1/index.html` (Lesson 1, part A): toy elliptic-curve arithmetic, algorithm replay and statistical census.
+- `hw2/index.html` (Lesson 1, part B): Ethereum wallet pipeline, checksum and hash experiments, statistical analysis and historical context.
+
+- `lesson2/index.html` (Lesson 2 / Homework 2): Caesar, secp256k1 ECDH + HKDF-SHA-256 + AES-256-GCM, statistical Caesar recovery, held-out length trials and bounded ECC key search.
 
 Open `index.html` in a modern browser, or serve the project directory with `python -m http.server 8000`. All dependencies are included locally. Use only educational phrases in the wallet lab.
 
@@ -26,7 +28,7 @@ Expected URLs after successful publication:
 - https://PardisKhosravi.github.io/statistics-2026-27/hw1/
 - https://PardisKhosravi.github.io/statistics-2026-27/hw2/
 
-These URLs are not live until the repository has been created, uploaded and published.
+The repository is published through GitHub Pages from the main branch.
 
 ## Verification
 
@@ -42,3 +44,13 @@ HW1 performs a census of all nonzero canonical scalars in the selected subgroup.
 - The toy arithmetic, interface and experiment code are authored for this coursework. The real wallet primitives use the libraries above; they are not claimed as independent implementations.
 
 The pages include primary-source references and distinguish statistical observations from security claims. No manual test in a wallet application is claimed.
+
+## Lesson 2 verification and data
+
+Use HTTPS or localhost for Web Crypto. Run `node tests/lesson2-checks.cjs`; optional DOM interactions: `node tests/lesson2-ui.cjs` after installing jsdom. Recipient keys are deliberately 1–4,096. This teaching hybrid is not a production protocol or Ethereum wallet encryption standard. Its fresh ephemeral scalar uses rejection sampling across the full standard subgroup order. It has no sender authentication.
+
+The attacker enumerates public points, does not read the secret input and decrypts with the recovered scalar. The packet exports no private scalar. GCM authentication is checked before returning any text.
+
+`assets/corpus-en.js` bundles ASCII letter counts from Jane Austen’s *Pride and Prejudice* (563,924 letters) and a 95,000-letter extract of Lewis Carroll’s *Alice’s Adventures in Wonderland*. These original works are public domain. Sources: https://www.gutenberg.org/ebooks/1342 and https://www.gutenberg.org/ebooks/11 ; downloaded 2026-10-22. Ebook header and footer removed before transformation; the Alice extract begins at “Alice was beginning”. Counts for the reference edition include its public-domain editorial material. No reference prose is used as evaluation data. For a reproducible run, the seed shuffles a schedule of lengths, then disjoint windows are drawn in that order; a separate random shift is assigned to each. The LCG is only a sampling tool, never a cryptographic key generator. CSV records the seed, offsets, actual/predicted shifts and the exact reference counts.
+
+The two Lesson 1 URLs are preserved. Lesson 2 has a single entry URL: https://pardiskhosravi.github.io/statistics-2026-27/lesson2/ .
