@@ -69,3 +69,22 @@ Exact finite-n probabilities are computed from binomial weights by recurrence ou
 CSV exports contain both models: summary moments/tails/CDF distances at all checkpoints, every attacker's endpoint at every checkpoint, and every step of the first up-to-eight displayed paths. The file records seed, model parameters and relevant sample sizes. No data or settings are sent to a server.
 
 Checks: `npm run test:lesson3`; UI checks after jsdom installation: `npm run test:lesson3-ui`. See VERIFICATION.md for observations and verification scope.
+
+
+## Lesson 4 — two independently linked exercises
+
+- Overview with two clickable cards: https://pardiskhosravi.github.io/statistics-2026-27/lesson4/
+- Exercise 1: https://pardiskhosravi.github.io/statistics-2026-27/welford/
+- Exercise 2: https://pardiskhosravi.github.io/statistics-2026-27/sampling-statistics/
+
+Lesson 4 is in the global navigation after Lesson 3. The two exercise pages link to each other and back to the overview. No runtime dependencies were added: HTML, CSS and vanilla JavaScript reuse the existing common helpers and the Lesson 3 xoshiro128** generator.
+
+`assets/welford.js` is the single numerical implementation used in both exercises. Its update has three statements: compute the old-mean deviation; increment the count and update the mean; update corrected SS with the new-mean deviation. Sample variance is SS/(n-1) for n>=2, and is undefined for an empty or singleton sample. Exercise 1 derives both descriptive and unbiased variance recurrences, uses correct initialization, provides an interactive trace and two-pass reference, and demonstrates translation-invariant variance versus catastrophic squared-sum cancellation. The small trace retains observations for teaching; the numerical algorithm itself uses constant state.
+
+Exercise 2 fixes a discrete uniform score distribution on {0,...,10}: mu=5, sigma^2=10, fourth central moment=178. Every hacker uses the shared update for every score. It records per-hacker means and unbiased variances at nested sample-size checkpoints; across-hacker variance estimates use denominator m-1. Theoretical sampling variances are 10/n and [178-((n-3)/(n-1))*100]/n. The main comparisons use unbiased within-hacker variances; SS/n is separately shown with its biased expectation 10*(n-1)/n.
+
+Defaults: maximum n=1000, m=2000, seed=20261103. A per-hacker stream is assigned by StochasticLab.rng(seed XOR 0x51f15e, 'sampling', attackerIndex). Prefixes are stable across n/m changes. To draw eleven integer scores without uint32 modulo bias, reject uint32 values >=4294967292 and reduce accepted values modulo 11. These are reproducible pseudorandom approximations to the independent-score model. The maximum settings are n=8192 and m=5000. Checkpoints reuse path prefixes, not independent experiments at each n. Results and exports are tied to the last completed snapshot; changed settings mark them stale, and cancellation retains the last complete result.
+
+Charts distinguish estimator centers, estimator spread and Monte Carlo standard errors. Histogram bins show probabilities, not densities; adaptive axes and optional full common axes are explicitly labeled. Six paths are retained for visualization, with display-only reduction to local extrema; all scores contribute to Welford updates and all hackers to ensemble statistics. Per-hacker tables show the first 100; CSV exports include every hacker/checkpoint, the summary table, and complete first-six paths. No normal-theory t/chi-square assumption is made for uniform scores.
+
+Checks: `npm run test:lesson4`; after installing the existing jsdom dev dependency, `npm run test:lesson4-ui`. The statistical assumptions and numerical/visual verification scope are recorded in VERIFICATION.md.

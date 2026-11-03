@@ -9,7 +9,9 @@
     "test:lesson2": "node tests/lesson2-checks.cjs",
     "test:lesson2-ui": "node tests/lesson2-ui.cjs",
     "test:lesson3": "node tests/lesson3-checks.cjs",
-    "test:lesson3-ui": "node tests/lesson3-ui.cjs"
+    "test:lesson3-ui": "node tests/lesson3-ui.cjs",
+    "test:lesson4": "node tests/lesson4-checks.cjs",
+    "test:lesson4-ui": "node tests/lesson4-ui.cjs"
   },
   "devDependencies": {
     "jsdom": "26.1.0"

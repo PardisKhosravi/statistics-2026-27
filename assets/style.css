@@ -46,3 +46,6 @@ tr.active-row td:first-child{box-shadow:inset 3px 0 var(--primary)}
 /* Keep all lesson entries accessible as the coursework grows. */
 @media(max-width:900px){.topbar{height:auto;min-height:80px;flex-wrap:wrap;padding-top:12px;padding-bottom:10px;gap:10px}.topbar nav{flex-wrap:wrap;gap:14px}.topbar nav a{padding:5px 0}}
 @media(max-width:700px){.topbar nav{justify-content:flex-start;column-gap:18px;row-gap:0}}
+
+@media(min-width:701px){.assignment.lesson4-card{grid-column:1/-1;min-height:240px}}
+@media(max-width:1000px){.topbar{height:auto;min-height:80px;flex-wrap:wrap;padding-top:12px;padding-bottom:10px;gap:10px}.topbar nav{flex-wrap:wrap;gap:14px}.topbar nav a{padding:5px 0}}
