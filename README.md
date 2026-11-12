@@ -88,3 +88,13 @@ Defaults: maximum n=1000, m=2000, seed=20261103. A per-hacker stream is assigned
 Charts distinguish estimator centers, estimator spread and Monte Carlo standard errors. Histogram bins show probabilities, not densities; adaptive axes and optional full common axes are explicitly labeled. Six paths are retained for visualization, with display-only reduction to local extrema; all scores contribute to Welford updates and all hackers to ensemble statistics. Per-hacker tables show the first 100; CSV exports include every hacker/checkpoint, the summary table, and complete first-six paths. No normal-theory t/chi-square assumption is made for uniform scores.
 
 Checks: `npm run test:lesson4`; after installing the existing jsdom dev dependency, `npm run test:lesson4-ui`. The statistical assumptions and numerical/visual verification scope are recorded in VERIFICATION.md.
+
+## Lesson 5 — Numerical integration and the normal CDF
+
+- Overview: https://pardiskhosravi.github.io/statistics-2026-27/lesson5/
+- Exercise 1: https://pardiskhosravi.github.io/statistics-2026-27/numerical-integration/
+- Exercise 2: https://pardiskhosravi.github.io/statistics-2026-27/normal-cdf/
+
+The first lab compares domain midpoint sums with midpoint heights weighted by the lengths of their preimages. It plots seven examples and discusses the improper integral, Dirichlet's function, and Thomae's function separately. The second lab compares composite Simpson integration, the erf power series, and a Cody rational approximation. It reports CDF and smaller-tail errors against independently generated high-precision references; the rounded NIST values are shown separately. Both labs offer convergence measurements, timing and CSV export. No runtime dependencies were added.
+
+Run the numerical suite with `npm run test:lesson5`.

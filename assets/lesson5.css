@@ -1,0 +1,27 @@
+/* Local additions for Lesson 5; shared site colors and spacing remain in style.css. */
+.lab5-nav{display:flex;flex-wrap:wrap;gap:.6rem;margin:1.2rem 0}
+.lab5-nav a{padding:.55rem .85rem;border:1px solid #e6d9e5;border-radius:.55rem;text-decoration:none}
+.lab5-nav a[aria-current=page]{background:#541f4c;color:white}
+.lab5-controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,10rem),1fr));gap:1rem;align-items:end}
+.lab5-controls label,.lab5-band label{display:block;font-weight:650}
+.lab5-controls select,.lab5-controls input,.lab5-band input{display:block;width:100%;margin-top:.35rem}
+.lab5-controls input[type=number]{border:1px solid #d9c9da;border-radius:.5rem;padding:.65rem;background:white;color:#34152f}
+.lab5-figures{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin-top:1rem}
+.lab5-figures figure,.lab5-figure{margin:0;min-width:0}
+.lab5-plot{width:100%;height:auto;display:block}
+.lab5-plot text{font:13px system-ui,sans-serif;fill:#63475f}
+.lab5-axis{stroke:#9c859a;stroke-width:1}
+.lab5-curve{stroke:#4d204a;stroke-width:2.5;fill:none;stroke-linejoin:round}
+.lab5-band{margin:1.2rem 0}
+.lab5-summary{background:#f6eef8;border-left:4px solid #8c4291;padding:1rem 1.2rem;margin:1rem 0;overflow-wrap:anywhere}
+.lab5-summary p:last-child{margin-bottom:0}
+.lab5-table td,.lab5-table th{font-variant-numeric:tabular-nums}
+.lab5-table tr.selected td{background:#f6eef8}
+.lab5-actions{display:flex;align-items:center;flex-wrap:wrap;gap:.7rem;margin:1rem 0}
+.lab5-formula{overflow:auto;white-space:normal;font-family:Georgia,serif;font-size:1.1rem}
+.lab5-figures figcaption,.lab5-figure figcaption{font-size:.9rem;margin:.5rem 0}
+.lab5-error{color:#991e41;font-weight:650}
+.lab5-table caption{text-align:left;font-weight:650;margin-bottom:.65rem}
+@media(max-width:680px){.lab5-figures{grid-template-columns:1fr}}
+.lab5-controls [hidden]{display:none}
+.lab5-controls select{border:1px solid #d9c9da;border-radius:.5rem;padding:.55rem;background:#fff;color:#34152f}
