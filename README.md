@@ -98,3 +98,9 @@ Checks: `npm run test:lesson4`; after installing the existing jsdom dev dependen
 The first lab compares domain midpoint sums with midpoint heights weighted by the lengths of their preimages. It plots seven examples and discusses the improper integral, Dirichlet's function, and Thomae's function separately. The second lab compares composite Simpson integration, the erf power series, and a Cody rational approximation. It reports CDF and smaller-tail errors against independently generated high-precision references; the rounded NIST values are shown separately. Both labs offer convergence measurements, timing and CSV export. No runtime dependencies were added.
 
 Run the numerical suite with `npm run test:lesson5`.
+
+## Lesson 6 — Statistical independence
+
+Entry: https://pardiskhosravi.github.io/statistics-2026-27/lesson6/
+
+Paste two categorical CSV columns (one paired observation per row) or select one of three fictional login datasets. The lab builds joint counts, marginal counts and proportions, both conditional distributions, expected counts, and the per-cell contributions to Pearson's chi-square statistic. It calculates an approximate upper-tail p-value and distinguishes statistical evidence from causality. Sparse tables are flagged and one-category tables receive no test decision. Processing runs locally in the browser with no runtime dependency.

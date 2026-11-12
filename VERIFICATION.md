@@ -77,3 +77,7 @@ Default computed observations (m=2000, seed=20261103): at n=2 the average mean i
 ## Lesson 5 — Numerical integration and the normal CDF
 
 Numerical checks cover all seven regular integrands, four singular cutoffs, value-band bounds and widths, disjoint sine preimages, step alignment, and the Thomae grid. CDF checks cover 19 independent high-precision reference points, 1,601 monotonicity samples, Simpson refinement, the series limits, and rounded NIST values. On the 19 reference points, the maximum observed Cody absolute CDF error was 1.11e-16 and the maximum observed relative smaller-tail error was 5.86e-15; these are measurements on that set, not error bounds for the entire domain. Chrome preview verified navigation through both exercises, the singular cutoff control, disjoint sine preimages, and the far-tail preset.
+
+## Lesson 6 — Statistical independence
+
+SciPy reproduced the expected counts, uncorrected Pearson statistics, degrees of freedom and upper-tail p-values for all three teaching examples. A separate 90-point sweep compared the JavaScript chi-square survival function with SciPy across degrees of freedom from 1 to 361. Tests also checked both conditional normalizations, quoted CSV and invalid input, and zero degrees of freedom. Chrome preview verified navigation, conditional direction switching, all three decisions, CSV validation, the one-category case and resetting the example.

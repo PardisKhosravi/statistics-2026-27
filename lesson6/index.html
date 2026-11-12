@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Build a contingency table, inspect conditional and marginal frequencies, and test statistical independence.">
+<title>Lesson 6 · Statistical Independence · Statistics Lab</title>
+<link rel="icon" href="../assets/favicon.svg"><link rel="stylesheet" href="../assets/style.css"><link rel="stylesheet" href="../assets/lesson6.css">
+<script defer src="../assets/independence6.js"></script><script defer src="../assets/lesson6-page.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar"><a class="brand" href="../"><span class="brand-mark">σ</span><span>STATISTICS LAB<small>SAPIENZA · 2026 / 27</small></span></a><nav aria-label="Main navigation"><a href="../">Overview</a><a href="../hw1/">L1 · Curve</a><a href="../hw2/">L1 · Wallet</a><a href="../lesson2/">Lesson 2</a><a href="../lesson3/">Lesson 3</a><a href="../lesson4/">Lesson 4</a><a href="../lesson5/">Lesson 5</a><a href="./" aria-current="page">Lesson 6</a></nav></header>
+<main id="main" class="wrap ind6">
+<div class="hero hero-grid">
+  <div><div class="eyebrow">Lesson 06 · Statistical Independence</div><h1>Do these variables<br><em>move together?</em></h1><p class="lede">Start with two columns of observations. See how the observed counts differ from the counts we would expect if the variables were independent.</p><div class="meta"><span>Pardis Khosravi</span><span>2236692</span><span>HTML · CSS · JavaScript</span></div></div>
+  <div class="hero-art"><div class="panel-label">The independence model</div><div class="ind6-equation">P(X = x, F = f)<br>= P(X = x) × P(F = f)</div><p class="note">If the variables are independent, learning the value of one does not change the distribution of the other.</p></div>
+</div>
+<nav class="section-nav" aria-label="On this page"><a href="#data">01 / Data</a><a href="#frequencies">02 / Frequencies</a><a href="#test">03 / Chi-square</a><a href="#meaning">04 / Interpretation</a></nav>
+<section id="data">
+  <div class="section-head"><span class="section-number">01</span><h2>Choose the observations</h2><p>The default data are fictional. Each row represents one login attempt and records the method and the outcome.</p></div>
+  <div class="panel ind6-input">
+    <div class="ind6-toolbar"><label for="preset">Teaching example<select id="preset"><option value="associated">Different failure rates</option><option value="balanced">Matching failure rates</option><option value="sparse">Sparse counts</option><option value="custom">Custom data</option></select></label><label for="alpha">Significance level α<select id="alpha"><option value="0.01">0.01</option><option selected value="0.05">0.05</option><option value="0.1">0.10</option></select></label><label class="ind6-check"><input type="checkbox" id="header" checked> First row contains column names</label></div>
+    <label for="pairs">Paired observations (CSV)</label><textarea id="pairs" rows="7" spellcheck="false" aria-describedby="csv-help"></textarea>
+    <p id="csv-help" class="note">Paste comma-separated data: one observation per line and exactly two columns. Quote labels that contain commas. Labels are case-sensitive; leading and trailing spaces are ignored. For continuous measurements, choose meaningful categories first. Data stay in this browser tab.</p>
+    <div class="ind6-actions"><button class="btn" type="button" id="analyze">Analyze data</button><button class="btn secondary" type="button" id="restore">Restore default example</button></div><p id="data-status" role="status"></p>
+  </div>
+</section>
+<div id="results" hidden>
+<section id="frequencies">
+  <div class="section-head"><span class="section-number">02</span><h2>Count, then compare rates</h2><p id="variable-labels"></p></div>
+  <div class="ind6-pair">
+    <article class="panel"><h3>Observed counts</h3><p class="note">Read the right and bottom margins for totals and percentages of the whole sample.</p><div class="table-wrap" id="observed"></div></article>
+    <article class="panel"><h3>Expected counts under independence</h3><p class="note">Each expected count is row total × column total ÷ sample size. Expected counts may be fractional.</p><div class="table-wrap" id="expected"></div></article>
+  </div>
+  <div class="panel ind6-condition"><div class="ind6-toolbar"><label for="direction">Conditional percentages<select id="direction"><option value="row">F given X · within each row</option><option value="col">X given F · within each column</option></select></label></div><div class="table-wrap" id="conditional"></div><p id="conditional-note" class="note"></p></div>
+</section>
+<section id="test">
+  <div class="section-head"><span class="section-number">03</span><h2>Measure the discrepancy</h2><p>Pearson’s χ² adds (observed − expected)² / expected across cells. The degrees of freedom are (rows − 1) × (columns − 1).</p></div>
+  <div class="metric-grid"><div class="metric"><span>Sample size</span><strong id="n"></strong></div><div class="metric"><span>Pearson χ²</span><strong id="chi"></strong></div><div class="metric"><span>Degrees of freedom</span><strong id="df"></strong></div><div class="metric"><span>Approximate p-value</span><strong id="p"></strong></div></div>
+  <div class="panel ind6-condition"><h3>Which cells contribute most?</h3><div class="ind6-legend"><span class="above">Observed above expected</span><span class="below">Observed below expected</span></div><div class="table-wrap" id="contributions"></div><p id="worked" class="note"></p></div>
+</section>
+<section id="meaning">
+  <div class="section-head"><span class="section-number">04</span><h2>Interpret the evidence</h2><p>Choose α before examining the results. The test asks whether a discrepancy at least this large would be unusual if independence held.</p></div>
+  <div class="panel ind6-decision"><div class="eyebrow">Decision at the selected α</div><h3 id="decision"></h3><p id="inference"></p><p id="diagnostic" class="note"></p></div>
+</section>
+</div>
+<section id="theory">
+  <div class="section-head"><span class="section-number">↳</span><h2>What independence means</h2></div>
+  <div class="three-col">
+    <article><h3>In probability</h3><p>For categorical variables, independence requires the joint probability of every pair to equal the product of its marginal probabilities. Equivalently, P(F = f | X = x) = P(F = f) for each x with positive probability and every f.</p></article>
+    <article><h3>In statistics</h3><p>Sample counts fluctuate even when the population is independent. We test H₀: independence against H₁: association. The p-value is the upper-tail probability under H₀, using the chi-square approximation. A large p-value does not prove independence.</p></article>
+    <article><h3>Association and causality</h3><p>Differences in login outcomes may reflect user experience, device type or account policy. This table alone cannot establish that changing the login method causes a change in failure rates. Repeated attempts by the same user may also violate the independence of observations assumed by the test.</p></article>
+  </div>
+  <p class="note">Reference: <a href="https://online.stat.psu.edu/stat504/Lesson03">Penn State STAT 504 · Two-Way Tables: Independence and Association</a>.</p>
+</section>
+<noscript><p>Enable JavaScript to run the analysis.</p></noscript>
+</main><footer class="footer wrap"><span>Pardis Khosravi · 2236692 · Statistics · Sapienza</span><a href="../">Back to coursework index ↗</a></footer>
+</body></html>
